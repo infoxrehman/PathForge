@@ -48,7 +48,7 @@ class ProfileButton extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const Spacer(), // Pushes the arrow icon to the end
+            const Spacer(),
             Icon(
               Icons.arrow_forward,
               color: Colors.black,

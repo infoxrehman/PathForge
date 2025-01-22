@@ -33,7 +33,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
-                      // Profile Picture
                       CircleAvatar(
                         radius: 50,
                         backgroundImage: AssetImage(
@@ -42,6 +41,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                         backgroundColor: Colors.transparent,
                       ),
                       SizedBox(width: 20),
+
                       // Profile Info
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

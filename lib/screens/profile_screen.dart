@@ -1,12 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:path_forge/auth/login.dart';
 import 'package:path_forge/widgets/profile_button.dart';
+import 'profile_editing_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
-  void editProfile() {
-    print("Edit profile button clicked!");
-    // Add your functionality here
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String username = 'Abdullah Shaikh'; // Default name
+  String role = '~ Flutter Dev'; // Default role
+  String avatarUrl = "assets/images/download.jpeg"; // Default avatar
+
+  void editProfile(BuildContext context) async {
+    // Await the updated profile data from the editing screen
+    final updatedProfile = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ProfileEditingScreen(),
+      ),
+    );
+
+    // If data is returned, update the profile
+    if (updatedProfile != null) {
+      setState(() {
+        username = updatedProfile['username'] ?? username;
+        role = updatedProfile['role'] ?? role;
+        avatarUrl = updatedProfile['avatarUrl'] ?? avatarUrl;
+      });
+    }
   }
 
   void connectWallet() {
@@ -20,8 +45,12 @@ class ProfileScreen extends StatelessWidget {
   }
 
   void logout() {
-    print("Logout button clicked!");
-    // Add your functionality here
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Login(),
+      ),
+    );
   }
 
   @override
@@ -29,96 +58,70 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 50.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 70,
-                backgroundColor:
-                    Colors.white, // White background behind the image
-                child: ClipOval(
-                  // Ensures the image is cropped properly within the CircleAvatar
-                  child: Image.asset(
-                    "assets/images/download.jpeg",
-                    fit: BoxFit
-                        .cover, // Ensures the image covers the available area
-                    height: 140, // Match the height to double the radius
-                    width: 140, // Match the width to double the radius
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Abdullah Shaikh',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                '~ Flutter Dev',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment:
-                    CrossAxisAlignment.center, // Align content vertically
-                children: [
-                  Icon(
-                    Icons.info,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    // Ensures text wraps properly if it’s long
-                    child: Text(
-                      'Connect your wallet as tokens are available!',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                      ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 50.0,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 70,
+                  backgroundColor: Colors.white,
+                  child: ClipOval(
+                    child: Image.asset(
+                      avatarUrl,
+                      fit: BoxFit.cover,
+                      height: 140,
+                      width: 140,
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Text(
-                '0 \$CODR Points',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
                 ),
-              ),
-              SizedBox(height: 20),
-              ProfileButton(
-                label: 'Edit profile',
-                icon: Icons.edit,
-                onPressed: editProfile,
-              ),
-              ProfileButton(
-                label: 'Connect wallet',
-                icon: Icons.wallet,
-                onPressed: connectWallet,
-              ),
-              ProfileButton(
-                label: 'Get verified',
-                icon: Icons.verified,
-                onPressed: getVerified,
-              ),
-              ProfileButton(
-                label: 'Logout',
-                icon: Icons.logout,
-                onPressed: logout,
-              ),
-            ],
+                const SizedBox(height: 20),
+                Text(
+                  username,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  role,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                ProfileButton(
+                  label: 'Edit profile',
+                  icon: Icons.edit,
+                  onPressed: () => editProfile(context),
+                ),
+                const SizedBox(height: 5),
+                ProfileButton(
+                  label: 'Connect wallet',
+                  icon: Icons.wallet,
+                  onPressed: connectWallet,
+                ),
+                const SizedBox(height: 5),
+                ProfileButton(
+                  label: 'Get verified',
+                  icon: Icons.verified,
+                  onPressed: getVerified,
+                ),
+                const SizedBox(height: 5),
+                ProfileButton(
+                  label: 'Logout',
+                  icon: Icons.logout,
+                  onPressed: logout,
+                ),
+              ],
+            ),
           ),
         ),
       ),

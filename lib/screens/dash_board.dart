@@ -51,10 +51,10 @@ class _DashboardState extends State<Dashboard> {
             items: [
               BottomNavigationBarItem(
                 icon: Padding(
-                  padding: const EdgeInsets.all(4.0), // Adjusted padding
+                  padding: const EdgeInsets.all(4.0),
                   child: Image.asset(
-                    "assets/images/goal_icon.png",
-                    width: 20, // Reduced icon size
+                    "assets/icons/goal_icon.png",
+                    width: 20,
                     height: 20,
                     color: _selectedIndex == 0
                         ? Colors.white
@@ -67,7 +67,7 @@ class _DashboardState extends State<Dashboard> {
                 icon: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Image.asset(
-                    "assets/images/activity.png",
+                    "assets/icons/activity.png",
                     width: 20,
                     height: 20,
                     color: _selectedIndex == 1
@@ -81,7 +81,7 @@ class _DashboardState extends State<Dashboard> {
                 icon: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Image.asset(
-                    "assets/images/performance_icon.png",
+                    "assets/icons/performance_icon.png",
                     width: 20,
                     height: 20,
                     color: _selectedIndex == 2
@@ -95,7 +95,7 @@ class _DashboardState extends State<Dashboard> {
                 icon: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Image.asset(
-                    "assets/images/profile-1.png",
+                    "assets/icons/coffee-icon.png",
                     width: 20,
                     height: 20,
                     color: _selectedIndex == 3

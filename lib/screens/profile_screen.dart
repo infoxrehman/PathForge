@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:path_forge/auth/login.dart';
-import 'package:path_forge/widgets/profile_button.dart';
 import 'profile_editing_screen.dart';
+import 'package:path_forge/auth/login.dart';
+import 'package:path_forge/screens/connect_wallet_screen.dart';
+import 'package:path_forge/widgets/profile_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,10 +15,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String username = 'Abdullah Shaikh'; // Default name
   String role = '~ Flutter Dev'; // Default role
-  String avatarUrl = "assets/images/download.jpeg"; // Default avatar
+  String avatarUrl = ''; // No default image
+  bool isAssetImage = true;
 
   void editProfile(BuildContext context) async {
-    // Await the updated profile data from the editing screen
+    // Await updated profile data from editing screen
     final updatedProfile = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -24,24 +27,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
 
-    // If data is returned, update the profile
+    // Update profile details
     if (updatedProfile != null) {
       setState(() {
         username = updatedProfile['username'] ?? username;
         role = updatedProfile['role'] ?? role;
         avatarUrl = updatedProfile['avatarUrl'] ?? avatarUrl;
+        isAssetImage = avatarUrl.isEmpty; // Set image source dynamically
       });
     }
   }
 
   void connectWallet() {
-    print("Connect wallet button clicked!");
-    // Add your functionality here
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ConnectWalletScreen(),
+      ),
+    );
   }
 
   void getVerified() {
     print("Get verified button clicked!");
-    // Add your functionality here
   }
 
   void logout() {
@@ -72,12 +79,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   radius: 70,
                   backgroundColor: Colors.white,
                   child: ClipOval(
-                    child: Image.asset(
-                      avatarUrl,
-                      fit: BoxFit.cover,
-                      height: 140,
-                      width: 140,
-                    ),
+                    child: isAssetImage
+                        ? Image.asset(
+                            "assets/images/download.jpeg",
+                            fit: BoxFit.cover,
+                            height: 140,
+                            width: 140,
+                          )
+                        : Image.file(
+                            File(avatarUrl),
+                            fit: BoxFit.cover,
+                            height: 140,
+                            width: 140,
+                          ),
                   ),
                 ),
                 const SizedBox(height: 20),

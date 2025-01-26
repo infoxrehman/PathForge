@@ -1,16 +1,17 @@
-// roadmap_card.dart
 import 'package:flutter/material.dart';
 
 class RoadmapCard extends StatelessWidget {
   final String title;
   final String description;
   final IconData icon;
+  final VoidCallback onPressed;
 
   const RoadmapCard({
     super.key,
     required this.title,
     required this.description,
     required this.icon,
+    required this.onPressed,
   });
 
   @override
@@ -22,7 +23,7 @@ class RoadmapCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         elevation: 5,
-        color: Colors.grey.shade900, // Card background
+        color: Colors.grey.shade900,
         child: ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.grey.shade300,
@@ -51,9 +52,7 @@ class RoadmapCard extends StatelessWidget {
             color: Colors.white,
             size: 18,
           ),
-          onTap: () {
-            // Navigate to the respective roadmap screen
-          },
+          onTap: onPressed,
         ),
       ),
     );

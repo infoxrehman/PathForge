@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:path_forge/screens/app_development_screen.dart';
+import 'package:path_forge/screens/backend_screen.dart';
+import 'package:path_forge/screens/datascience_screen.dart';
+import 'package:path_forge/screens/machine_learning_screen.dart';
+import 'package:path_forge/screens/new_roadmap_screen.dart';
+import 'package:path_forge/screens/web_development_screen.dart';
 import 'package:path_forge/widgets/roadmap_card.dart';
 
 class Goals extends StatefulWidget {
@@ -14,26 +20,31 @@ class _GoalsState extends State<Goals> {
       'title': "App Development",
       'description': "Learn Flutter step by step to build amazing apps.",
       'icon': Icons.flutter_dash,
+      'screen': const AppDevelopmentScreen(),
     },
     {
       'title': "Web Development",
       'description': "Master HTML, CSS, and JavaScript for modern web.",
       'icon': Icons.web,
+      'screen': const WebDevelopmentScreen(),
     },
     {
       'title': "Machine Learning",
       'description': "Dive into ML concepts and real-world applications.",
       'icon': Icons.memory,
+      'screen': const MachineLearningScreen(),
     },
     {
       'title': "Data Science",
       'description': "Learn data analysis and visualization techniques.",
       'icon': Icons.bar_chart,
+      'screen': const DataScienceScreen(),
     },
     {
       'title': "Backend Development",
       'description': "Explore APIs, databases, and server-side programming.",
       'icon': Icons.storage,
+      'screen': const BackendDevelopmentScreen(),
     },
   ];
 
@@ -43,6 +54,7 @@ class _GoalsState extends State<Goals> {
         'title': "New Roadmap",
         'description': "Description for the new roadmap.",
         'icon': Icons.add_circle_outline,
+        'screen': const NewRoadmapScreen(), // Temporary screen for new roadmap
       });
     });
   }
@@ -81,6 +93,14 @@ class _GoalsState extends State<Goals> {
                     title: card['title'],
                     description: card['description'],
                     icon: card['icon'],
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => card['screen'],
+                        ),
+                      );
+                    },
                   );
                 }).toList(),
               ),

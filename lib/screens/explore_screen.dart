@@ -13,19 +13,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
-        children: [
-          Container(
-            child: Card(
-              color: Colors.grey.shade300,
-              child: Image.asset(
-                "assets/images/productive.png",
-                fit: BoxFit.cover,
-                height: 300,
-                width: 400,
-              ),
-            ),
-          ),
-        ],
+        children: [],
       ),
     );
   }

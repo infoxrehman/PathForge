@@ -31,19 +31,14 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
 
   void saveProfile() {
     final updatedProfile = {
-      'username': _usernameController.text.isNotEmpty
-          ? _usernameController.text
-          : 'Abdullah Shaikh',
-      'role': _roleController.text.isNotEmpty
-          ? _roleController.text
-          : '~ Flutter Dev',
-      'avatarUrl': _avatarImage != null
-          ? _avatarImage!.path
-          : "assets/images/download.jpeg",
+      'username':
+          _usernameController.text.isNotEmpty ? _usernameController.text : '',
+      'role': _roleController.text.isNotEmpty ? _roleController.text : '',
+      'avatarUrl': _avatarImage != null ? _avatarImage!.path : '',
     };
 
-    // Pass the updated profile data back to the Profile screen
-    Navigator.pop(context, updatedProfile);
+    Navigator.pop(
+        context, updatedProfile); // Pass profile back to ProfileScreen
   }
 
   @override
@@ -84,23 +79,6 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
               ),
               const SizedBox(height: 40),
               TextField(
-                controller: _nameController,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  labelText: 'Your Name',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
                 controller: _usernameController,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
@@ -123,29 +101,6 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                 decoration: InputDecoration(
                   labelText: 'Your Role',
                   labelStyle: const TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _bioController,
-                style: const TextStyle(color: Colors.white),
-                maxLines: 3,
-                minLines: 1,
-                decoration: InputDecoration(
-                  labelText: 'Bio',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 40,
-                    horizontal: 20,
-                  ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.white, width: 2),
                     borderRadius: BorderRadius.circular(15),

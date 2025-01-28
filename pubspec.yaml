@@ -45,6 +45,7 @@ dependencies:
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
   flutter_native_splash: ^2.4.4
+  lottie: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
     - assets/icons/goal_icon.png
     - assets/icons/
     - assets/images/background_image.png
+    - assets/animations/datascience.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

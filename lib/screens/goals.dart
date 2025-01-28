@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:path_forge/screens/app_development_screen.dart';
-import 'package:path_forge/screens/backend_screen.dart';
 import 'package:path_forge/screens/datascience_screen.dart';
 import 'package:path_forge/screens/machine_learning_screen.dart';
 import 'package:path_forge/screens/new_roadmap_screen.dart';
 import 'package:path_forge/screens/web_development_screen.dart';
 import 'package:path_forge/widgets/roadmap_card.dart';
+
+import 'artificial_intelligence_scree.dart';
 
 class Goals extends StatefulWidget {
   const Goals({super.key});
@@ -41,10 +42,10 @@ class _GoalsState extends State<Goals> {
       'screen': const DataScienceScreen(),
     },
     {
-      'title': "Backend Development",
+      'title': "Artificial Intelligence",
       'description': "Explore APIs, databases, and server-side programming.",
       'icon': Icons.storage,
-      'screen': const BackendDevelopmentScreen(),
+      'screen': const ArtificialIntelligenceScreen(),
     },
   ];
 

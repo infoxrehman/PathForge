@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:path_forge/widgets/cross_platform_option_widget.dart';
 import 'package:path_forge/widgets/native_option_widget.dart';
 
@@ -56,10 +57,10 @@ class AppDevelopmentScreen extends StatelessWidget {
                         const SizedBox(height: 10),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.asset(
-                              "assets/images/app-development-image.jpg"),
+                          child: LottieBuilder.asset(
+                              "assets/animations/app-development.json"),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         Text(
                           "App development is a crucial skill in today's technology-driven world. "
                           "Whether you're building apps for Android or iOS, native or cross-platform "

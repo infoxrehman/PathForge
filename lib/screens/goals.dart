@@ -6,7 +6,7 @@ import 'package:path_forge/screens/new_roadmap_screen.dart';
 import 'package:path_forge/screens/web_development_screen.dart';
 import 'package:path_forge/widgets/roadmap_card.dart';
 
-import 'artificial_intelligence_scree.dart';
+import 'artificial_intelligence_screen.dart';
 
 class Goals extends StatefulWidget {
   const Goals({super.key});

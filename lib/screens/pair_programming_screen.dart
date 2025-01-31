@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ConnectWalletScreen extends StatelessWidget {
-  const ConnectWalletScreen({super.key});
+class PairProgrammingScreen extends StatelessWidget {
+  const PairProgrammingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

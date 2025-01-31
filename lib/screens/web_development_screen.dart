@@ -105,35 +105,50 @@ class WebDevelopmentScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      _buildPathOption("Frontend Development",
-                          "Learn HTML, CSS, JavaScript, React, and more to create visually stunning and interactive websites."),
-                      _buildPathOption("Backend Development",
-                          "Master Node.js, Django, databases, and APIs to handle server-side logic and data management."),
-                      _buildPathOption("Full Stack Development",
-                          "Combine frontend and backend skills to build complete, scalable web applications."),
-                      const SizedBox(height: 20),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Navigate to roadmap selection screen
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.purple.shade800,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            "Explore Roadmaps",
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
+                      _buildPathOption(
+                        "Frontend Development",
+                        "Learn HTML, CSS, JavaScript, React, and more to create visually stunning and interactive websites.",
+                        onPressed: () {
+                          // Navigate to Frontend Roadmap Screen
+                        },
                       ),
+                      _buildPathOption(
+                        "Backend Development",
+                        "Master Node.js, Django, databases, and APIs to handle server-side logic and data management.",
+                        onPressed: () {
+                          // Navigate to Backend Roadmap Screen
+                        },
+                      ),
+                      _buildPathOption(
+                        "Full Stack Development",
+                        "Combine frontend and backend skills to build complete, scalable web applications.",
+                        onPressed: () {
+                          // Navigate to Full Stack Roadmap Screen
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      // Center(
+                      //   child: ElevatedButton(
+                      //     onPressed: () {
+                      //       // Navigate to roadmap selection screen
+                      //     },
+                      //     style: ElevatedButton.styleFrom(
+                      //       backgroundColor: Colors.white,
+                      //       foregroundColor: Colors.purple.shade800,
+                      //       padding: const EdgeInsets.symmetric(
+                      //           vertical: 10, horizontal: 20),
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //     ),
+                      //     child: const Text(
+                      //       "Explore Roadmaps",
+                      //       style: TextStyle(
+                      //         fontSize: 18,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -145,42 +160,70 @@ class WebDevelopmentScreen extends StatelessWidget {
     );
   }
 
-  // Helper method to build path options
-  Widget _buildPathOption(String title, String description) {
+  // Helper method to build path options with buttons
+  Widget _buildPathOption(String title, String description,
+      {VoidCallback? onPressed}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.arrow_right,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white.withOpacity(0.9),
-                  ),
-                ),
-              ],
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.indigo.shade800, Colors.indigoAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
+            borderRadius: BorderRadius.circular(10),
           ),
-        ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white.withOpacity(0.9),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: ElevatedButton(
+                  onPressed: onPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.indigo.shade800,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    "Learn More",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

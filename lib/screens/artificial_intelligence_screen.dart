@@ -81,8 +81,8 @@ class ArtificialIntelligenceScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _buildGradientCard(
-                "Key Topics to Learn:",
-                "- Machine Learning Basics\n- Neural Networks & Deep Learning\n- Natural Language Processing (NLP)\n- Computer Vision\n- Reinforcement Learning\n- AI Ethics and Bias",
+                "Why should you learn about AI?",
+                "AI is revolutionizing industries, from healthcare to finance, making tasks more efficient and data-driven. Learning AI equips you with problem-solving skills, enhances career opportunities, and enables you to create innovative solutions for real-world challenges.",
                 [Colors.green, Colors.lightGreenAccent],
               ),
               // Call to Action Button

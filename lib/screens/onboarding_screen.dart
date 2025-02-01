@@ -91,12 +91,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 SmoothPageIndicator(
                   controller: _controller,
                   count: totalPages,
-                  effect: const WormEffect(
+                  effect: const JumpingDotEffect(
                     activeDotColor: Colors.black,
                     dotColor: Colors.grey,
                     dotHeight: 15,
                     dotWidth: 15,
                     spacing: 6,
+                    verticalOffset: 50,
                   ),
                 ),
 

@@ -219,29 +219,25 @@ class RoadmapDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
+      body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Roadmap: ${roadmap["title"]!}",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Card(
+            color: Colors.grey[850],
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: ListTile(
+              title: Text(
+                "Step ${index + 1}: Dummy Content",
+                style: const TextStyle(color: Colors.white),
+              ),
+              subtitle: const Text(
+                "This is a placeholder for roadmap steps.",
+                style: TextStyle(color: Colors.white70),
               ),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              "Add your roadmap steps here!",
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

@@ -1,100 +1,89 @@
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 
-class BotScreen extends StatelessWidget {
+class BotScreen extends StatefulWidget {
   const BotScreen({super.key});
+
+  @override
+  State<BotScreen> createState() => _BotScreenState();
+}
+
+class _BotScreenState extends State<BotScreen> {
+  final Gemini gemini = Gemini.instance;
+  List<ChatMessage> messages = [];
+
+  ChatUser currentUser = ChatUser(id: "0", firstName: "User");
+  ChatUser geminiUser = ChatUser(
+    id: "1",
+    firstName: "Gemini",
+    profileImage:
+        "https://www.shutterstock.com/image-vector/chat-bot-icon-virtual-smart-600nw-2478937555.jpg",
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        title: const Text('Chatbot'),
+        title: Text("Chat here!"),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: 10, // Replace with actual message count
-              itemBuilder: (context, index) {
-                return ChatMessage(
-                  message: 'Message $index',
-                  isMe: index % 2 == 0, // Example logic to alternate messages
-                );
-              },
-            ),
-          ),
-          const MessageInput(),
-        ],
-      ),
+      body: _buildUI(),
     );
   }
-}
 
-class ChatMessage extends StatelessWidget {
-  final String message;
-  final bool isMe;
-
-  const ChatMessage({
-    super.key,
-    required this.message,
-    required this.isMe,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.all(8.0),
-        padding: const EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: isMe ? Colors.blue : Colors.grey[300],
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Text(
-          message,
-          style: TextStyle(
-            color: isMe ? Colors.white : Colors.black,
-          ),
-        ),
-      ),
+  Widget _buildUI() {
+    return DashChat(
+      currentUser: currentUser,
+      onSend: _sendMessage,
+      messages: messages,
     );
   }
-}
 
-class MessageInput extends StatelessWidget {
-  const MessageInput({super.key});
+  void _sendMessage(ChatMessage chatMessage) {
+    setState(() {
+      messages = [
+        chatMessage,
+        ...messages
+      ]; // Add the sent message to the messages list
+    });
+    try {
+      String question = chatMessage.text;
+      gemini.streamGenerateContent(question).listen(
+        (event) {
+          // Print the parts data to inspect it
+          print("Parts Data: ${event.content?.parts}");
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Type a message...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 8.0),
-          IconButton(
-            icon: const Icon(Icons.send),
-            onPressed: () {
-              // Handle send message
-            },
-          ),
-        ],
-      ),
-    );
+          // Check if we can access part data
+          if (event.content?.parts != null) {
+            String response = event.content!.parts!.map((part) {
+                  // Assuming 'text' is a property in TextPart
+                  print("Part: $part");
+
+                  // Extracting text content from TextPart
+                  if (part is TextPart) {
+                    return part.text ??
+                        ""; // Use the correct field if 'text' exists
+                  } else {
+                    return ""; // Handle other types of parts if necessary
+                  }
+                }).join(" ") ??
+                "";
+
+            // Update the messages based on the response
+            ChatMessage message = ChatMessage(
+              user: geminiUser,
+              createdAt: DateTime.now(),
+              text: response,
+            );
+
+            setState(() {
+              messages = [message, ...messages];
+            });
+          }
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }

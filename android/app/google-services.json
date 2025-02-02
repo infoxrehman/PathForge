@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "370391317448",
+    "project_id": "pathforge-f579c",
+    "storage_bucket": "pathforge-f579c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370391317448:android:93451c6188b71385eb5efd",
+        "android_client_info": {
+          "package_name": "com.example.path_forge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcwilt78FBgWAJciMRUOUeOpKo-9A-C9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

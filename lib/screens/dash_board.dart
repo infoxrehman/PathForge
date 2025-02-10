@@ -32,15 +32,19 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: _screens[_selectedIndex],
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _screens,
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 14.0,
-          vertical: 8.0, // Reduced vertical padding
-        ),
+          horizontal: 10.0,
+          vertical: 1.0,
+        ), // Reduced padding
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(50), // Reduced radius
+          borderRadius: BorderRadius.circular(
+              40), // Slightly less rounded for a slim feel
           child: BottomNavigationBar(
             backgroundColor: Colors.grey.shade900,
             selectedItemColor: Colors.white,
@@ -49,78 +53,46 @@ class _DashboardState extends State<Dashboard> {
             onTap: _onItemTapped,
             type: BottomNavigationBarType.fixed,
             items: [
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Image.asset(
-                    "assets/icons/goal_icon.png",
-                    width: 20,
-                    height: 20,
-                    color: _selectedIndex == 0
-                        ? Colors.white
-                        : const Color(0xFF8A8A8A),
-                  ),
-                ),
-                label: 'Goals',
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Image.asset(
-                    "assets/icons/activity.png",
-                    width: 20,
-                    height: 20,
-                    color: _selectedIndex == 1
-                        ? Colors.white
-                        : const Color(0xFF8A8A8A),
-                  ),
-                ),
-                label: 'Activity',
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Image.asset(
-                    "assets/icons/performance_icon.png",
-                    width: 20,
-                    height: 20,
-                    color: _selectedIndex == 2
-                        ? Colors.white
-                        : const Color(0xFF8A8A8A),
-                  ),
-                ),
-                label: 'Explore',
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Image.asset(
-                    "assets/icons/coffee-icon.png",
-                    width: 20,
-                    height: 20,
-                    color: _selectedIndex == 3
-                        ? Colors.white
-                        : const Color(0xFF8A8A8A),
-                  ),
-                ),
-                label: 'Profile',
-              ),
+              _buildNavItem("assets/icons/goal_icon.png", "Goals", 0),
+              _buildNavItem("assets/icons/activity.png", "Activity", 1),
+              _buildNavItem("assets/icons/performance_icon.png", "Explore", 2),
+              _buildNavItem("assets/icons/coffee-icon.png", "Profile", 3),
             ],
             showUnselectedLabels: true,
             showSelectedLabels: true,
             selectedLabelStyle: const TextStyle(
-              fontSize: 12,
+              fontSize: 11, // Slightly smaller font
               fontWeight: FontWeight.bold,
               fontFamily: 'Lato',
             ),
             unselectedLabelStyle: const TextStyle(
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.normal,
               fontFamily: 'Lato',
             ),
           ),
         ),
       ),
+    );
+  }
+
+  /// Helper method to build BottomNavigationBarItem with icon
+  BottomNavigationBarItem _buildNavItem(
+      String iconPath, String label, int index) {
+    return BottomNavigationBarItem(
+      icon: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 4.0,
+        ), // Reduced padding to slim down the bar
+        child: Image.asset(
+          iconPath,
+          width: 20,
+          height: 20,
+          color:
+              _selectedIndex == index ? Colors.white : const Color(0xFF8A8A8A),
+        ),
+      ),
+      label: label,
     );
   }
 }

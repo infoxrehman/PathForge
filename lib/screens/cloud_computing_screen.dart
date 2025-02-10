@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class CloudComputingScreen extends StatelessWidget {
   const CloudComputingScreen({super.key});
@@ -23,6 +24,7 @@ class CloudComputingScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Lottie.asset("assets/animations/cloud.json"),
             // Card for "What is Cloud Computing?"
             _buildCard(
               color: const Color(0xFF6A11CB),

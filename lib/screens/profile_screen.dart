@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_forge/auth/login_page.dart';
 import 'profile_editing_screen.dart';
-import 'package:path_forge/auth/login.dart';
 import 'package:path_forge/screens/connect_wallet_screen.dart';
 import 'package:path_forge/widgets/profile_button.dart';
 
@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Login(),
+        builder: (context) => LoginPage(),
       ),
     );
   }

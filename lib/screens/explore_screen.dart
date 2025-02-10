@@ -33,40 +33,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
           children: [
             SizedBox(height: 40),
 
-            // Hackathons Card
-            buildExploreCard(
-              "Join Hackathons",
-              "Compete, collaborate, and innovate in exciting coding hackathons!",
-              "assets/images/hackathon-bg.png",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HackatonScreen(),
-                  ),
-                );
-              },
-            ),
-
-            SizedBox(height: 40),
-
-            // Pair Programming Card (with button)
-            buildExploreCard(
-              "Pair Programming",
-              "Work together, learn faster, and write better code through collaboration!",
-              "assets/images/pair-programming-bg.avif",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PairProgrammingScreen(),
-                  ),
-                );
-              },
-            ),
-
-            SizedBox(height: 40),
-
             // Daily Coding Challenges Card
             buildExploreCard(
               "Daily Coding Challenges",
@@ -93,6 +59,40 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => BotScreen()),
+                );
+              },
+            ),
+
+            SizedBox(height: 40),
+
+            // Pair Programming Card (with button)
+            buildExploreCard(
+              "Pair Programming",
+              "Work together, learn faster, and write better code through collaboration!",
+              "assets/images/new-pair-programming.jpg",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PairProgrammingScreen(),
+                  ),
+                );
+              },
+            ),
+
+            SizedBox(height: 40),
+
+            // Hackathons Card
+            buildExploreCard(
+              "Join Hackathons",
+              "Compete, collaborate, and innovate in exciting coding hackathons!",
+              "assets/images/hackathon-bg.png",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HackatonScreen(),
+                  ),
                 );
               },
             ),

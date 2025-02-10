@@ -72,20 +72,20 @@ class ArtificialIntelligenceScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // Content Section
               const SizedBox(height: 20),
-              _buildGradientCard(
-                "What is Artificial Intelligence?",
-                "Artificial Intelligence (AI) is the simulation of human intelligence in machines that are programmed to think, learn, and make decisions. It includes technologies like machine learning, natural language processing, and computer vision.",
-                [Colors.red, Colors.orangeAccent],
+              GradientCard(
+                title: "What is Artificial Intelligence?",
+                content:
+                    "Artificial Intelligence (AI) is the simulation of human intelligence in machines that are programmed to think, learn, and make decisions. It includes technologies like machine learning, natural language processing, and computer vision.",
+                colors: [Colors.red, Colors.orangeAccent],
               ),
               const SizedBox(height: 16),
-              _buildGradientCard(
-                "Why should you learn about AI?",
-                "AI is revolutionizing industries, from healthcare to finance, making tasks more efficient and data-driven. Learning AI equips you with problem-solving skills, enhances career opportunities, and enables you to create innovative solutions for real-world challenges.",
-                [Colors.green, Colors.lightGreenAccent],
+              GradientCard(
+                title: "Why should you learn about AI?",
+                content:
+                    "AI is revolutionizing industries, from healthcare to finance, making tasks more efficient and data-driven. Learning AI equips you with problem-solving skills, enhances career opportunities, and enables you to create innovative solutions for real-world challenges.",
+                colors: [Colors.green, Colors.lightGreenAccent],
               ),
-              // Call to Action Button
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
@@ -114,9 +114,22 @@ class ArtificialIntelligenceScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  // Helper method to build gradient cards with different colors
-  Widget _buildGradientCard(String title, String content, List<Color> colors) {
+class GradientCard extends StatelessWidget {
+  final String title;
+  final String content;
+  final List<Color> colors;
+
+  const GradientCard({
+    required this.title,
+    required this.content,
+    required this.colors,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

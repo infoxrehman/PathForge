@@ -45,3 +45,17 @@ app.*.map.json
 /android/app/release
 
 secrets/
+
+# Android Firebase config
+android/app/google-services.json
+
+# iOS Firebase config
+ios/Runner/GoogleService-Info.plist
+
+# Firebase-generated options file (contains API keys)
+lib/firebase_options.dart
+
+# Secret API key file
+lib/secrets/gemini_key.dart
+secrets/
+

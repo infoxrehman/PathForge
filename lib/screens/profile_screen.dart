@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_forge/auth/login_page.dart';
+import 'package:path_forge/models/user.dart';
 import 'profile_editing_screen.dart';
-import 'package:path_forge/screens/connect_wallet_screen.dart';
+import 'package:path_forge/pages/future_enhancement_page.dart';
 import 'package:path_forge/widgets/profile_button.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -16,6 +17,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String username = 'Abdullah Shaikh'; // Default name
   String role = '~ Flutter Dev'; // Default role
   String avatarUrl = ''; // No default image
+  User user = User(
+    id: '',
+    name: 'Abdullah Shaikh',
+    imageUrl: '',
+    email: '',
+    role: '',
+  );
   bool isAssetImage = true;
 
   void editProfile(BuildContext context) async {
@@ -42,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ConnectWalletScreen(),
+        builder: (context) => FutureEnhancementPage(),
       ),
     );
   }

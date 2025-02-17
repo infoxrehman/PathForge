@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path_forge/screens/roadmap.dart';
 
 class CrossPlatformOptionsWidget extends StatelessWidget {
   const CrossPlatformOptionsWidget({super.key});
@@ -6,125 +7,123 @@ class CrossPlatformOptionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Set background color to black
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black, // Set AppBar color to black
-        foregroundColor: Colors.white, // Set text color to white
-        elevation: 4, // Add slight elevation to the AppBar for depth
-        title: const Text(
-          "Cross-Platform Development",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold, // Bold title for emphasis
-          ),
-        ),
+        backgroundColor: Colors.black12,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.all(20.0), // Increased padding for better spacing
-        child: ListView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Heading with some space above
             const Text(
               "Cross-Platform Development",
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-                letterSpacing: 1.5, // Add some letter spacing for style
+                letterSpacing: 1.5,
               ),
             ),
-            const SizedBox(height: 12), // Space between heading and description
-
+            const SizedBox(height: 12),
             const Text(
-              "Choose a framework to get started with cross-platform mobile development:",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors
-                    .white70, // Slightly lighter text for secondary content
-              ),
+              "Choose a framework to get started:",
+              style: TextStyle(fontSize: 16, color: Colors.white70),
             ),
-            const SizedBox(height: 30), // Increased space before buttons
+            const SizedBox(height: 20),
 
-            // Flutter Button with Icon
-            ElevatedButton.icon(
-              onPressed: () {
+            // Flutter Card
+            _buildFrameworkCard(
+              context,
+              title: "Flutter Roadmap",
+              description:
+                  "Flutter is a UI framework for building beautiful, natively compiled applications from a single codebase.",
+              iconPath: "assets/icons/flutter-icon.png",
+              iconColor: Colors.blue,
+              onTap: () {
                 // Navigate to Flutter Roadmap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Roadmap(),
+                  ),
+                );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white, // White button background
-                foregroundColor: Colors.black, // Black text color
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(8), // Rounded button corners
-                ),
-                elevation: 3, // Slight shadow to give depth
-              ),
-              icon: Image.asset(
-                "assets/icons/flutter-icon.png", // Path to Flutter icon
-                width: 28,
-                height: 28,
-                color: Colors.black,
-              ),
-              label: const Text(
-                "Flutter Roadmap",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight:
-                      FontWeight.w500, // Slightly bolder text for emphasis
-                ),
-              ),
             ),
-            const SizedBox(height: 15),
-            const Text(
-              "Flutter is a powerful UI framework for building beautiful natively compiled applications for mobile, web, and desktop from a single codebase. It's known for its fast development cycle and expressive UI components.",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-              ),
-            ),
-            const SizedBox(height: 30), // Increased space between sections
+            const SizedBox(height: 20),
 
-            // React Native Button with Icon
-            ElevatedButton.icon(
-              onPressed: () {
+            // React Native Card
+            _buildFrameworkCard(
+              context,
+              title: "React Native Roadmap",
+              description:
+                  "React Native allows you to build mobile apps using JavaScript and React for a seamless cross-platform experience.",
+              iconPath: "assets/icons/react-icon.png",
+              iconColor: Colors.cyan,
+              onTap: () {
                 // Navigate to React Native Roadmap
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                elevation: 3,
-              ),
-              icon: Image.asset(
-                "assets/icons/react-icon.png", // Path to React Native icon
-                width: 28,
-                height: 28,
-                color: Colors.blue,
-              ),
-              label: const Text(
-                "React Native Roadmap",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            const Text(
-              "React Native allows you to build mobile applications using JavaScript and React. It's one of the most popular frameworks for creating cross-platform apps, providing a seamless experience across Android and iOS.",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFrameworkCard(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required String iconPath,
+    required Color iconColor,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: Colors.grey[900],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 4,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                iconPath,
+                width: 40,
+                height: 40,
+                color: iconColor,
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      description,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

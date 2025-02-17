@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NativeOptionsWidget extends StatelessWidget {
   const NativeOptionsWidget({super.key});
@@ -6,125 +7,122 @@ class NativeOptionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Set background color to black
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black, // Set AppBar color to black
-        foregroundColor: Colors.white, // Set text color to white
-        elevation: 4, // Add slight elevation to the AppBar for depth
-        title: const Text(
-          "Native Development",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold, // Bold title for emphasis
-          ),
-        ),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.all(20.0), // Increased padding for better spacing
-        child: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Heading with some space above
-            const Text(
+            // Title
+            Text(
               "Native Development",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-                letterSpacing: 1.5, // Add some letter spacing for style
+                letterSpacing: 1.2,
               ),
             ),
-            const SizedBox(height: 12), // Space between heading and description
+            const SizedBox(height: 10),
 
-            const Text(
+            // Subtitle
+            Text(
               "Choose a programming language to get started with native Android development:",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 16,
-                color: Colors
-                    .white70, // Slightly lighter text for secondary content
+                color: Colors.white70,
               ),
             ),
-            const SizedBox(height: 30), // Increased space before buttons
+            const SizedBox(height: 25),
 
-            // Java Button with Icon
-            ElevatedButton.icon(
-              onPressed: () {
+            // Java Card
+            _buildOptionCard(
+              context,
+              title: "Java Roadmap",
+              description:
+                  "Java is a powerful programming language widely used for Android development. It's known for its reliability, robustness, and extensive libraries.",
+              imagePath: "assets/icons/java-icon.png",
+              onTap: () {
                 // Navigate to Java Roadmap
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white, // White button background
-                foregroundColor: Colors.black, // Black text color
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(8), // Rounded button corners
-                ),
-                elevation: 3, // Slight shadow to give depth
-              ),
-              icon: Image.asset(
-                "assets/icons/java-icon.png", // Path to Java icon
-                width: 28,
-                height: 28,
-                color: Colors.black,
-              ),
-              label: const Text(
-                "Java Roadmap",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight:
-                      FontWeight.w500, // Slightly bolder text for emphasis
-                ),
-              ),
             ),
-            const SizedBox(height: 15),
-            const Text(
-              "Java is a powerful programming language widely used for Android development. It's known for its reliability, robustness, and extensive libraries that make it ideal for building native Android apps.",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-              ),
-            ),
-            const SizedBox(height: 30), // Increased space between sections
 
-            // Kotlin Button with Icon
-            ElevatedButton.icon(
-              onPressed: () {
+            const SizedBox(height: 20),
+
+            // Kotlin Card
+            _buildOptionCard(
+              context,
+              title: "Kotlin Roadmap",
+              description:
+                  "Kotlin is a modern, concise, and expressive language officially supported for Android development. It enhances productivity and ensures code safety.",
+              imagePath: "assets/icons/kotlin-icon.png",
+              onTap: () {
                 // Navigate to Kotlin Roadmap
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                elevation: 3,
-              ),
-              icon: Image.asset(
-                "assets/icons/kotlin-icon.png", // Path to Kotlin icon
-                width: 28,
-                height: 28,
-                color: Colors.black,
-              ),
-              label: const Text(
-                "Kotlin Roadmap",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            const Text(
-              "Kotlin is a modern, concise, and expressive language officially supported for Android development. It offers seamless interoperability with Java and is designed to boost developer productivity and code safety.",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOptionCard(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required String imagePath,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: Colors.grey[900], // Dark gray for a premium look
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              // Icon
+              Image.asset(
+                imagePath,
+                width: 40,
+                height: 40,
+              ),
+              const SizedBox(width: 15),
+
+              // Text Content
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      description,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ConnectWalletScreen extends StatelessWidget {
-  const ConnectWalletScreen({super.key});
+class FutureEnhancementPage extends StatelessWidget {
+  const FutureEnhancementPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +9,7 @@ class ConnectWalletScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: const Text('Connect Wallet'),
+        title: const Text('Future Enhancement'),
       ),
       backgroundColor: Colors.black,
       body: SafeArea(

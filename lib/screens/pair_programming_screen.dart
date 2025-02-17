@@ -9,7 +9,7 @@ class PairProgrammingScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: const Text('Connect Wallet'),
+        title: const Text('Future Enhancement'),
       ),
       backgroundColor: Colors.black,
       body: SafeArea(

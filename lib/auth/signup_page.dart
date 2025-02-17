@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:path_forge/screens/dash_board.dart';
+import 'package:path_forge/models/user.dart' as model;
+import 'package:path_forge/widgets/auth_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -35,8 +38,30 @@ class _SignUpPageState extends State<SignUpPage> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
+      final user = model.User(
+        email: emailController.text,
+        role: '',
+        id: userCredential.user?.uid ?? '',
+        name: nameController.text,
+        imageUrl: '',
+      );
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.id)
+          .set(user.toMap());
+
+      if (!mounted) return;
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => Dashboard(),
+        ),
+      );
       print(userCredential.user?.uid);
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.message ?? "Sign up failed")),
       );
@@ -143,50 +168,18 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget buildTextField(
       TextEditingController controller, String label, IconData icon,
       {bool isPassword = false, bool isEmail = false}) {
-    return TextFormField(
+    return AuthTextField(
       controller: controller,
-      obscureText: isPassword ? !isPasswordVisible : false,
-      keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return '$label cannot be empty';
-        }
-        if (isEmail &&
-            !RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+')
-                .hasMatch(value)) {
-          return 'Enter a valid email';
-        }
-        if (isPassword && value.length < 6) {
-          return 'Password must be at least 6 characters long';
-        }
-        return null;
+      hintText: label,
+      icon: icon,
+      isEmail: isEmail,
+      isPassword: isPassword,
+      isObscure: !isPasswordVisible,
+      onPressed: () {
+        setState(() {
+          isPasswordVisible = !isPasswordVisible;
+        });
       },
-      decoration: InputDecoration(
-        hintText: label,
-        prefixIcon: Icon(icon, color: Colors.white70),
-        suffixIcon: isPassword
-            ? IconButton(
-                icon: Icon(
-                  isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.white70,
-                ),
-                onPressed: () {
-                  setState(() {
-                    isPasswordVisible = !isPasswordVisible;
-                  });
-                },
-              )
-            : null,
-        labelText: label,
-        labelStyle: const TextStyle(color: Colors.white),
-        fillColor: Colors.grey.shade900,
-        filled: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
-        ),
-      ),
-      style: const TextStyle(color: Colors.white),
     );
   }
 }

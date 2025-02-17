@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
 import 'package:path_forge/secrets/gemini_key.dart';
+import 'package:path_forge/widgets/chat_bubble.dart'; // Importing the reusable ChatBubble
 
 class BotScreen extends StatefulWidget {
   const BotScreen({super.key});
@@ -15,6 +16,7 @@ class _BotScreenState extends State<BotScreen> {
   final TextEditingController _userInput = TextEditingController();
   final List<Message> _messages = [];
   late final GenerativeModel model;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -30,28 +32,31 @@ class _BotScreenState extends State<BotScreen> {
 
   Future<void> sendMessage() async {
     final message = _userInput.text.trim();
-    if (message.isEmpty) return;
+    if (message.isEmpty || _isLoading) return;
 
     setState(() {
       _messages
           .add(Message(isUser: true, message: message, date: DateTime.now()));
       _userInput.clear();
+      _isLoading = true;
     });
 
     try {
-      final content = [Content.text(message)];
-      final response = await model.generateContent(content);
+      final response = await model.generateContent([Content.text(message)]);
       setState(() {
         _messages.add(Message(
-            isUser: false,
-            message: response.text ?? "No response",
-            date: DateTime.now()));
+          isUser: false,
+          message: response.text ?? "No response",
+          date: DateTime.now(),
+        ));
       });
     } catch (e) {
       setState(() {
         _messages.add(
             Message(isUser: false, message: "Error: $e", date: DateTime.now()));
       });
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
@@ -63,27 +68,21 @@ class _BotScreenState extends State<BotScreen> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
-          title: Text(
-            "PathForge ChatBot",
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          title: Text("PathForge ChatBot",
+              style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            SizedBox(
-              height: 50,
-            ),
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   final message = _messages[index];
-                  return AnimatedMessage(
+                  return ChatBubble(
+                    // Using the reusable widget
                     isUser: message.isUser,
                     message: message.message,
                     date: DateFormat('HH:mm').format(message.date),
@@ -91,6 +90,11 @@ class _BotScreenState extends State<BotScreen> {
                 },
               ),
             ),
+            if (_isLoading)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(color: Colors.blue),
+              ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -106,17 +110,17 @@ class _BotScreenState extends State<BotScreen> {
                           borderRadius: BorderRadius.circular(25),
                           borderSide: BorderSide.none,
                         ),
-                        hintText: 'Enter Your Message',
+                        hintText: 'Type a message...',
                         hintStyle: const TextStyle(color: Colors.white70),
                         contentPadding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 20),
+                            vertical: 12, horizontal: 15),
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
                   IconButton(
-                    padding: const EdgeInsets.all(12),
-                    iconSize: 30,
+                    padding: const EdgeInsets.all(10),
+                    iconSize: 28,
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(Colors.blue),
                       foregroundColor: WidgetStateProperty.all(Colors.white),
@@ -142,63 +146,4 @@ class Message {
   final DateTime date;
 
   Message({required this.isUser, required this.message, required this.date});
-}
-
-class AnimatedMessage extends StatelessWidget {
-  final bool isUser;
-  final String message;
-  final String date;
-
-  const AnimatedMessage({
-    super.key,
-    required this.isUser,
-    required this.message,
-    required this.date,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      width: double.infinity,
-      padding: const EdgeInsets.all(15),
-      margin: EdgeInsets.symmetric(vertical: 10).copyWith(
-        left: isUser ? 100 : 10,
-        right: isUser ? 10 : 100,
-      ),
-      decoration: BoxDecoration(
-        color: isUser ? Colors.blueAccent : Colors.grey.shade400,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(20),
-          bottomLeft: isUser ? const Radius.circular(20) : Radius.zero,
-          topRight: const Radius.circular(20),
-          bottomRight: isUser ? Radius.zero : const Radius.circular(20),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(255, 225, 219, 219).withOpacity(0.2),
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            message,
-            style: TextStyle(
-                fontSize: 16, color: isUser ? Colors.white : Colors.black),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            date,
-            style: TextStyle(
-                fontSize: 10, color: isUser ? Colors.white70 : Colors.black54),
-          ),
-        ],
-      ),
-    );
-  }
 }

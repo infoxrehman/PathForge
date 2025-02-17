@@ -62,6 +62,7 @@ class _GoalsState extends State<Goals> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
           "Select Your Roadmap",

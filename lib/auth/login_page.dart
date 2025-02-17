@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:path_forge/auth/signup_page.dart';
 import 'package:path_forge/screens/dash_board.dart';
+import 'package:path_forge/widgets/auth_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -90,56 +91,25 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                TextFormField(
+                AuthTextField(
                   controller: emailController,
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    filled: true,
-                    prefixIcon: Icon(
-                      Icons.email,
-                      color: Colors.white,
-                    ),
-                    fillColor: Colors.grey[900],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                  hintText: "Email",
+                  icon: Icons.email,
+                  isLogin: true,
                 ),
                 const SizedBox(height: 15),
-                TextFormField(
+                AuthTextField(
                   controller: passwordController,
-                  obscureText: !_isPasswordVisible,
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    filled: true,
-                    prefixIcon: Icon(
-                      Icons.password,
-                      color: Colors.white,
-                    ),
-                    fillColor: Colors.grey[900],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.grey,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
-                      },
-                    ),
-                  ),
+                  hintText: "Password",
+                  icon: Icons.password,
+                  isLogin: true,
+                  isObscure: !_isPasswordVisible,
+                  isPassword: true,
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
                 ),
                 const SizedBox(height: 20),
                 SizedBox(

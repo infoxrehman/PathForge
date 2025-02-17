@@ -125,7 +125,9 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed:
                         _isLoading ? null : loginUserWithEmailAndPassword,
                     child: _isLoading
-                        ? CircularProgressIndicator(color: Colors.black)
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
                         : const Text(
                             'SIGN IN',
                             style: TextStyle(

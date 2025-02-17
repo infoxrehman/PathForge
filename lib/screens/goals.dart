@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:path_forge/screens/app_development_screen.dart';
-import 'package:path_forge/screens/cloud_computing_screen.dart';
-import 'package:path_forge/screens/datascience_screen.dart';
-import 'package:path_forge/screens/machine_learning_screen.dart';
 import 'package:path_forge/screens/custom_roadmap_screen.dart';
-import 'package:path_forge/screens/web_development_screen.dart';
+import 'package:path_forge/utils/goals_data.dart';
 import 'package:path_forge/widgets/roadmap_card.dart';
-
-import 'artificial_intelligence_screen.dart';
 
 class Goals extends StatefulWidget {
   const Goals({super.key});

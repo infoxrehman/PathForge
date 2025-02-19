@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path_forge/utils/base.dart';
+import 'package:path_forge/widgets/crossplatform_opt_widget.dart';
+import 'package:path_forge/widgets/native_opt_widget.dart';
 
 // AI-Screen
 class ArtificialIntelligenceScreen extends StatelessWidget {
@@ -173,16 +175,13 @@ class AppDevelopmentScreen extends StatelessWidget {
         TechnologySection(
           title: "What is App Development?",
           content:
-              "App development is a crucial skill in today's technology-driven world. "
-              "Whether you're building apps for Android or iOS, native or cross-platform "
-              "technologies can help you create user-friendly, scalable, and high-performing applications.",
+              "App development is a crucial skill in today's technology-driven world. Whether you're building apps for Android or iOS, native or cross-platform technologies can help you create user-friendly, scalable, and high-performing applications.",
           gradientColors: [Colors.blueGrey.shade800, Colors.blueGrey.shade600],
         ),
         TechnologySection(
           title: "Choose Your Development Path",
           content:
-              "Select whether you want to build native apps tailored to specific platforms, "
-              "or cross-platform apps that work seamlessly on multiple platforms.",
+              "Select whether you want to build native apps tailored to specific platforms, or cross-platform apps that work seamlessly on multiple platforms.",
           gradientColors: [
             Colors.deepPurple.shade800,
             Colors.deepPurple.shade600
@@ -190,65 +189,44 @@ class AppDevelopmentScreen extends StatelessWidget {
         ),
       ],
       onStartLearning: () {
-        // Add your navigation logic here
-      },
-    );
-  }
-}
-
-class CrossPlatformOptionsWidget extends StatelessWidget {
-  const CrossPlatformOptionsWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Base(
-      title: "Cross-Platform Development",
-      animationPath: 'assets/animations/cross-platform.json',
-      sections: [
-        TechnologySection(
-          title: "Flutter Roadmap",
-          content:
-              "Flutter is a UI framework for building beautiful, natively compiled applications from a single codebase.",
-          gradientColors: [Colors.blue, Colors.cyan],
-        ),
-        TechnologySection(
-          title: "React Native Roadmap",
-          content:
-              "React Native allows you to build mobile apps using JavaScript and React for a seamless cross-platform experience.",
-          gradientColors: [Colors.cyan, Colors.teal],
-        ),
-      ],
-      onStartLearning: () {
-        // Add your navigation logic here
-      },
-    );
-  }
-}
-
-class NativeOptionsWidget extends StatelessWidget {
-  const NativeOptionsWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Base(
-      title: "Native Development",
-      animationPath: 'assets/animations/native-development.json',
-      sections: [
-        TechnologySection(
-          title: "Java Roadmap",
-          content:
-              "Java is a powerful programming language widely used for Android development. It's known for its reliability, robustness, and extensive libraries.",
-          gradientColors: [Colors.orange, Colors.yellow],
-        ),
-        TechnologySection(
-          title: "Kotlin Roadmap",
-          content:
-              "Kotlin is a modern, concise, and expressive language officially supported for Android development. It enhances productivity and ensures code safety.",
-          gradientColors: [Colors.green, Colors.lime],
-        ),
-      ],
-      onStartLearning: () {
-        // Add your navigation logic here
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: const Text('Cross-Platform Development'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const CrossPlatformOptionsWidget(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Native Development'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NativeOptionsWidget(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       },
     );
   }

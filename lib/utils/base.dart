@@ -42,6 +42,9 @@ class Base extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(
+                height: 10,
+              ),
               Lottie.asset(animationPath),
               const SizedBox(height: 16),
               ...sections.map((section) => Column(

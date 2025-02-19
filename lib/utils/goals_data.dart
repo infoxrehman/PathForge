@@ -190,6 +190,7 @@ class AppDevelopmentScreen extends StatelessWidget {
       ],
       onStartLearning: () {
         showModalBottomSheet(
+          backgroundColor: Colors.grey.shade300,
           context: context,
           builder: (BuildContext context) {
             return Padding(

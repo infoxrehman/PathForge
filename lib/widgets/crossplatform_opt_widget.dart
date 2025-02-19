@@ -1,29 +1,130 @@
 import 'package:flutter/material.dart';
-import 'package:path_forge/utils/base.dart';
+import 'package:lottie/lottie.dart';
+import 'package:path_forge/screens/roadmap.dart';
 
 class CrossPlatformOptionsWidget extends StatelessWidget {
   const CrossPlatformOptionsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Base(
-      title: "Cross-Platform Development",
-      animationPath: 'assets/animations/cross-platform.json',
-      sections: [
-        TechnologySection(
-          title: "Flutter Roadmap",
-          content:
-              "Flutter is a UI framework for building beautiful, natively compiled applications from a single codebase.",
-          gradientColors: [Colors.blue, Colors.cyan],
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text("Cross-Platform"),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LottieBuilder.asset("assets/animations/cross-platform.json"),
+              SizedBox(
+                height: 30,
+              ),
+              // Flutter Card
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Roadmap(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blue.shade700, Colors.cyan.shade700],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  height: 120,
+                  width: double.infinity,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 8,
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Image.asset(
+                            "assets/icons/flutter-icon.png",
+                            height: 80,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            "Flutter Development\nRoadmap",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // React Native Card
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.cyan.shade700, Colors.teal.shade700],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  height: 120,
+                  width: double.infinity,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 8,
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Image.asset(
+                            "assets/icons/react-icon.png",
+                            height: 80,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            "React Native Development\nRoadmap",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        TechnologySection(
-          title: "React Native Roadmap",
-          content:
-              "React Native allows you to build mobile apps using JavaScript and React for a seamless cross-platform experience.",
-          gradientColors: [Colors.cyan, Colors.teal],
-        ),
-      ],
-      onStartLearning: () {},
+      ),
     );
   }
 }

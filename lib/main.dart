@@ -14,63 +14,48 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // ✅ Only set persistence on Web to prevent errors
+  if (kIsWeb) {
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  }
+
   Gemini.init(apiKey: GEMINI_API_KEY);
+
   runApp(
     kIsWeb
         ? DevicePreview(
-            // White background looks professional in website embedding
             backgroundColor: Colors.black,
-
-            // Enable preview by default for web demo
             enabled: true,
-
-            // Start with Galaxy A50 as it's a common Android device
             defaultDevice: Devices.ios.iPhone13ProMax,
-
-            // Show toolbar to let users test different devices
             isToolbarVisible: true,
-
-            // Keep English only to avoid confusion in demos
             availableLocales: const [Locale('en', 'US')],
-
-            // Customize preview controls
             tools: const [
-              // Device selection controls
               DeviceSection(
-                model: true, // Option to change device model to fit your needs
-                orientation: false, // Lock to portrait for consistent demo
-                frameVisibility: false, // Hide frame options
-                virtualKeyboard: false, // Hide keyboard
+                model: true,
+                orientation: false,
+                frameVisibility: false,
+                virtualKeyboard: false,
               ),
             ],
-
-            // Curated list of devices for comprehensive preview
             devices: [
-              // ... Devices.all, // uncomment to see all devices
-
-              // Popular Android Devices
-              Devices.android.samsungGalaxyA50, // Mid-range
-              Devices.android.samsungGalaxyNote20, // Large screen
-              Devices.android.samsungGalaxyS20, // Flagship
-              Devices.android.samsungGalaxyNote20Ultra, // Premium
-              Devices.android.onePlus8Pro, // Different aspect ratio
-              Devices.android.sonyXperia1II, // Tall screen
-
-              // Popular iOS Devices
-              Devices.ios.iPhoneSE, // Small screen
-              Devices.ios.iPhone12, // Standard size
-              Devices.ios.iPhone12Mini, // Compact
-              Devices.ios.iPhone12ProMax, // Large
-              Devices.ios.iPhone13, // Latest standard
-              Devices.ios.iPhone13ProMax, // Latest large
-              Devices.ios.iPhone13Mini, // Latest compact
-              Devices.ios.iPhoneSE, // Budget option
+              Devices.android.samsungGalaxyA50,
+              Devices.android.samsungGalaxyNote20,
+              Devices.android.samsungGalaxyS20,
+              Devices.android.samsungGalaxyNote20Ultra,
+              Devices.android.onePlus8Pro,
+              Devices.android.sonyXperia1II,
+              Devices.ios.iPhoneSE,
+              Devices.ios.iPhone12,
+              Devices.ios.iPhone12Mini,
+              Devices.ios.iPhone12ProMax,
+              Devices.ios.iPhone13,
+              Devices.ios.iPhone13ProMax,
+              Devices.ios.iPhone13Mini,
             ],
-
-            /// Your app's entry point
-            builder: (BuildContext context) => MyApp(),
+            builder: (BuildContext context) => const MyApp(),
           )
-        : MyApp(),
+        : const MyApp(),
   );
 }
 
@@ -81,18 +66,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
+      home: FutureBuilder<User?>(
+        future: FirebaseAuth.instance
+            .authStateChanges()
+            .first, // ✅ Ensures it waits for auth state
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return const Scaffold(
+              backgroundColor: Colors.black,
+              body: Center(child: CircularProgressIndicator()),
             );
           }
-          if (snapshot.data != null) {
-            return Dashboard();
-          }
-          return SignUpPage();
+          return snapshot.hasData ? const Dashboard() : const SignUpPage();
         },
       ),
     );

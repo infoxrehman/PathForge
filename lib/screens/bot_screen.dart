@@ -21,7 +21,7 @@ class _BotScreenState extends State<BotScreen> {
   @override
   void initState() {
     super.initState();
-    model = GenerativeModel(model: 'gemini-pro', apiKey: GEMINI_API_KEY);
+    model = GenerativeModel(model: 'gemini-2.0-flash', apiKey: GEMINI_API_KEY);
   }
 
   @override

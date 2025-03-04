@@ -8,8 +8,8 @@ import 'package:path_forge/widgets/auth_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
   static route() => MaterialPageRoute(
-        builder: (context) => const SignUpPage(),
-      );
+    builder: (context) => const SignUpPage(),
+  );
   const SignUpPage({super.key});
 
   @override
@@ -37,7 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       setState(() => isSigningIn = true);
       final userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
@@ -141,29 +141,23 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: isSigningIn
                         ? const CircularProgressIndicator(color: Colors.black)
                         : Text(
-                            'SIGN UP',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                          ),
+                      'SIGN UP',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    setState(() => isSigningIn = true);
-                    Future.delayed(const Duration(seconds: 2), () {
-                      if (mounted) {
-                        setState(() => isSigningIn = false);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Dashboard(),
-                          ),
-                        );
-                      }
-                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Dashboard(),
+                      ),
+                    );
                   },
                   child: RichText(
                     text: TextSpan(
@@ -176,24 +170,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,
                           ),
-                          children: [
-                            WidgetSpan(
-                              alignment: PlaceholderAlignment.middle,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: isSigningIn
-                                    ? const SizedBox(
-                                        width: 16,
-                                        height: 16,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),

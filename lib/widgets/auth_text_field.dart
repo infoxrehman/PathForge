@@ -9,6 +9,7 @@ class AuthTextField extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isEmail;
   final bool isLogin;
+  final bool readOnly;
 
   const AuthTextField({
     super.key,
@@ -20,6 +21,7 @@ class AuthTextField extends StatelessWidget {
     this.onPressed,
     this.isEmail = false,
     this.isLogin = false,
+    this.readOnly = false,
   });
 
   @override
@@ -27,23 +29,24 @@ class AuthTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: isObscure,
+      readOnly: readOnly,
       style: TextStyle(color: Colors.white),
       validator: isLogin
           ? null
           : (value) {
-              if (value == null || value.isEmpty) {
-                return '$hintText cannot be empty';
-              }
-              if (isEmail &&
-                  !RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+')
-                      .hasMatch(value)) {
-                return 'Enter a valid email';
-              }
-              if (isPassword && value.length < 6) {
-                return 'Password must be at least 6 characters long';
-              }
-              return null;
-            },
+        if (value == null || value.isEmpty) {
+          return '$hintText cannot be empty';
+        }
+        if (isEmail &&
+            !RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+')
+                .hasMatch(value)) {
+          return 'Enter a valid email';
+        }
+        if (isPassword && value.length < 6) {
+          return 'Password must be at least 6 characters long';
+        }
+        return null;
+      },
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
       decoration: InputDecoration(
         hintText: hintText,
@@ -55,12 +58,12 @@ class AuthTextField extends StatelessWidget {
         ),
         suffixIcon: isPassword
             ? IconButton(
-                icon: Icon(
-                  isObscure ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey,
-                ),
-                onPressed: onPressed,
-              )
+          icon: Icon(
+            isObscure ? Icons.visibility : Icons.visibility_off,
+            color: Colors.grey,
+          ),
+          onPressed: onPressed,
+        )
             : null,
         fillColor: Colors.grey[900],
         border: OutlineInputBorder(

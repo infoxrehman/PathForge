@@ -3,7 +3,7 @@ import 'package:path_forge/screens/bot_screen.dart';
 import 'package:path_forge/screens/coding_challenges_screen.dart';
 import 'package:path_forge/screens/hackathon_screen.dart';
 import 'package:path_forge/screens/pair_programming_screen.dart';
-import 'package:path_forge/widgets/explore_card.dart'; // Import the ExploreCard widget
+import 'package:path_forge/widgets/explore_card.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});

@@ -59,6 +59,7 @@ class _GoalsState extends State<Goals> {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         centerTitle: true,
+<<<<<<< HEAD
         leading: IconButton(
           onPressed: () {
             Navigator.push(
@@ -72,6 +73,8 @@ class _GoalsState extends State<Goals> {
             Icons.arrow_back,
           ),
         ),
+=======
+>>>>>>> 0f22ecc7e0b99c154821c697e956537150bc89c3
         title: const Text(
           "Select Your Roadmap",
           style: TextStyle(

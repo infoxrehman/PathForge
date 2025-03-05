@@ -69,7 +69,7 @@ class _GoalsState extends State<Goals> {
             );
           },
           icon: Icon(
-            Icons.arrow_back_ios,
+            Icons.arrow_back,
           ),
         ),
         title: const Text(

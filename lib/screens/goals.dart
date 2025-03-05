@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path_forge/auth/login_page.dart';
 import 'package:path_forge/screens/custom_roadmap_screen.dart';
 import 'package:path_forge/utils/goals_data.dart';
 import 'package:path_forge/widgets/roadmap_card.dart';
@@ -59,30 +58,6 @@ class _GoalsState extends State<Goals> {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         centerTitle: true,
-<<<<<<< HEAD
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              ),
-            );
-          },
-          icon: Icon(
-            Icons.arrow_back,
-          ),
-        ),
-=======
->>>>>>> 0f22ecc7e0b99c154821c697e956537150bc89c3
-        title: const Text(
-          "Select Your Roadmap",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

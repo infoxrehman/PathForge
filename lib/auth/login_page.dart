@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path_forge/auth/signup_page.dart';
 import 'package:path_forge/screens/dash_board.dart';
 import 'package:path_forge/widgets/auth_text_field.dart';
@@ -8,6 +9,7 @@ class LoginPage extends StatefulWidget {
   static route() => MaterialPageRoute(
         builder: (context) => const LoginPage(),
       );
+
   const LoginPage({super.key});
 
   @override
@@ -63,107 +65,102 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  "assets/icons/route.png",
-                  color: Colors.white,
-                  height: 200,
-                  width: 200,
-                ),
-                const Text(
-                  'Sign In.',
-                  style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    "assets/icons/route.png",
                     color: Colors.white,
+                    height: 200,
+                    width: 200,
                   ),
-                ),
-                const SizedBox(height: 30),
-                AuthTextField(
-                  controller: emailController,
-                  hintText: "Email",
-                  icon: Icons.email,
-                  isLogin: true,
-                ),
-                const SizedBox(height: 15),
-                AuthTextField(
-                  controller: passwordController,
-                  hintText: "Password",
-                  icon: Icons.password,
-                  isLogin: true,
-                  isObscure: !_isPasswordVisible,
-                  isPassword: true,
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                  const Text(
+                    'Sign In.',
+                    style: TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                    onPressed:
-                        _isLoading ? null : loginUserWithEmailAndPassword,
-                    child: _isLoading
-                        ? CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text(
-                            'SIGN IN',
+                  ),
+                  const SizedBox(height: 30),
+                  AuthTextField(
+                    controller: emailController,
+                    hintText: "Email",
+                    icon: Icons.email,
+                    isLogin: true,
+                  ),
+                  const SizedBox(height: 15),
+                  AuthTextField(
+                    controller: passwordController,
+                    hintText: "Password",
+                    icon: Icons.password,
+                    isLogin: true,
+                    isObscure: !_isPasswordVisible,
+                    isPassword: true,
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 45,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      onPressed: loginUserWithEmailAndPassword,
+                      child: _isLoading
+                          ? CircularProgressIndicator(color: Colors.black)
+                          : Text(
+                              'Login',
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUpPage(),
+                        ),
+                      );
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Don\'t have an account? ',
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        children: [
+                          TextSpan(
+                            text: 'Sign Up',
                             style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
                             ),
                           ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignUpPage(),
+                        ],
                       ),
-                    );
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Don\'t have an account? ',
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
-                      children: [
-                        TextSpan(
-                          text: 'Sign Up',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

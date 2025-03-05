@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:path_forge/auth/login_page.dart';
-import 'package:path_forge/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'profile_editing_screen.dart';
 import 'package:path_forge/pages/future_enhancement_page.dart';
 import 'package:path_forge/widgets/profile_button.dart';
@@ -14,17 +15,43 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String username = 'Abdullah Shaikh'; // Default name
-  String role = '~ Flutter Dev'; // Default role
-  String avatarUrl = ''; // No default image
-  User user = User(
-    id: '',
-    name: 'Abdullah Shaikh',
-    imageUrl: '',
-    email: '',
-    role: '',
-  );
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  void checkUser(BuildContext context) {
+    final User? user = _firebaseAuth.currentUser;
+    if (user == null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false,
+      );
+    }
+  }
+
+  String username = '';
+  String role = '';
+  String avatarUrl = '';
+
   bool isAssetImage = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserInfo();
+  }
+
+  void loadUserInfo() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    if (userDoc.exists) {
+      setState(() {
+        username = userDoc.data()?['name'] ?? "Username";
+        role = userDoc.data()?['role'] ?? "Bio";
+        avatarUrl = userDoc.data()?['imageUrl'] ?? "";
+      });
+    }
+  }
 
   void editProfile(BuildContext context) async {
     // Await updated profile data from editing screen
@@ -56,16 +83,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void getVerified() {
-    print("Get verified button clicked!");
-  }
-
-  void logout() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LoginPage(),
+        builder: (context) => FutureEnhancementPage(),
       ),
     );
+  }
+
+  void logout() {
+    _firebaseAuth.signOut();
+    checkUser(context);
   }
 
   @override
@@ -104,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  username,
+                  "@$username",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,

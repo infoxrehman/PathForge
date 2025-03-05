@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_forge/auth/login_page.dart';
 import 'package:path_forge/screens/dash_board.dart';
 import 'package:path_forge/models/user.dart' as model;
 import 'package:path_forge/widgets/auth_text_field.dart';
@@ -20,6 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
+  final roleController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isPasswordVisible = false;
   bool isSigningIn = false;
@@ -29,6 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
     emailController.dispose();
     passwordController.dispose();
     nameController.dispose();
+    roleController.dispose();
     super.dispose();
   }
 
@@ -44,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
       final user = model.User(
         email: emailController.text,
-        role: '',
+        role: roleController.text,
         id: userCredential.user?.uid ?? '',
         name: nameController.text,
         imageUrl: '',
@@ -106,23 +109,30 @@ class _SignUpPageState extends State<SignUpPage> {
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                 ),
                 const SizedBox(height: 25),
-                buildTextField(
-                  nameController,
-                  "Name",
-                  Icons.person,
+                AuthTextField(
+                  controller: nameController,
+                  hintText: "Name",
+                  icon: Icons.person,
+                ),
+                const SizedBox(height: 25),
+                AuthTextField(
+                  controller: roleController,
+                  hintText: "Role",
+                  icon: Icons.abc,
                 ),
                 const SizedBox(height: 15),
-                buildTextField(
-                  emailController,
-                  "Email",
-                  Icons.email,
+                AuthTextField(
+                  controller: emailController,
+                  hintText: "Email",
+                  icon: Icons.email,
                   isEmail: true,
                 ),
                 const SizedBox(height: 15),
-                buildTextField(
-                  passwordController,
-                  "Password",
-                  Icons.lock,
+                AuthTextField(
+                  controller: passwordController,
+                  hintText: "Password",
+                  isObscure: !isPasswordVisible,
+                  icon: Icons.lock,
                   isPassword: true,
                 ),
                 const SizedBox(height: 25),
@@ -139,9 +149,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     onPressed: createUserWithEmailAndPassword,
                     child: isSigningIn
-                        ? const CircularProgressIndicator(color: Colors.black)
+                        ? CircularProgressIndicator(color: Colors.black)
                         : Text(
-                      'SIGN UP',
+                      'Register',
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         color: Colors.black,
@@ -155,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Dashboard(),
+                        builder: (context) => LoginPage(),
                       ),
                     );
                   },
@@ -180,24 +190,6 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildTextField(
-      TextEditingController controller, String label, IconData icon,
-      {bool isPassword = false, bool isEmail = false}) {
-    return AuthTextField(
-      controller: controller,
-      hintText: label,
-      icon: icon,
-      isEmail: isEmail,
-      isPassword: isPassword,
-      isObscure: !isPasswordVisible,
-      onPressed: () {
-        setState(() {
-          isPasswordVisible = !isPasswordVisible;
-        });
-      },
     );
   }
 }

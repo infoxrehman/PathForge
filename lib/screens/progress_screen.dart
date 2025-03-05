@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProgressScreen extends StatefulWidget {
@@ -8,6 +10,39 @@ class ProgressScreen extends StatefulWidget {
 }
 
 class _ProgressScreenState extends State<ProgressScreen> {
+
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+
+
+  String name = '';
+  String role = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) return;
+
+      DocumentSnapshot userDoc =
+      await _firestore.collection("users").doc(user.uid).get();
+
+      if (userDoc.exists) {
+        setState(() {
+          name = userDoc['name'] ?? '';
+          role = userDoc['role'] ?? '';
+        });
+      }
+    } catch (e) {
+      debugPrint("Error loading user data: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +53,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Profile Section
               Container(
                 width: double.infinity,
                 height: 250,
@@ -48,7 +82,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Abdullah Shaikh",
+                            "@$name",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -57,7 +91,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                             ),
                           ),
                           Text(
-                            "Role: App Developer",
+                            "Role: $role",
                             style: TextStyle(
                               color: Colors.white70,
                               fontWeight: FontWeight.bold,
@@ -116,7 +150,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
 
 class ProgressCard extends StatelessWidget {
   final String title;
-  final double progress; // Value between 0.0 and 1.0
+  final double progress;
 
   const ProgressCard({
     super.key,
@@ -127,7 +161,7 @@ class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.zero, // Remove any default margin
+      margin: EdgeInsets.zero,
       color: Colors.grey.shade900,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),

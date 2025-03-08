@@ -10,10 +10,8 @@ class ProgressScreen extends StatefulWidget {
 }
 
 class _ProgressScreenState extends State<ProgressScreen> {
-
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-
 
   String name = '';
   String role = '';
@@ -30,7 +28,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
       if (user == null) return;
 
       DocumentSnapshot userDoc =
-      await _firestore.collection("users").doc(user.uid).get();
+          await _firestore.collection("users").doc(user.uid).get();
 
       if (userDoc.exists) {
         setState(() {
@@ -82,7 +80,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "$name",
+                            name,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

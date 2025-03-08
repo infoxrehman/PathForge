@@ -1,188 +1,204 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 class Roadmap extends StatefulWidget {
   const Roadmap({super.key});
 
   @override
-  State<Roadmap> createState() => _RoadmapState();
+  _RoadmapState createState() => _RoadmapState();
 }
 
 class _RoadmapState extends State<Roadmap> {
-  List<Map<String, dynamic>> roadmapSteps = [
-    {
-      "title": "Step 1: Learn Basics",
-      "description": "Start with programming fundamentals and logic building.",
-      "completed": false
-    },
-    {
-      "title": "Step 2: Build Projects",
-      "description": "Work on small projects to strengthen your coding skills.",
-      "completed": false
-    },
-    {
-      "title": "Step 3: Learn Advanced Concepts",
-      "description": "Explore data structures, algorithms, and system design.",
-      "completed": false
-    },
-    {
-      "title": "Step 4: Contribute to Open Source",
-      "description": "Engage in open-source projects to gain real-world experience.",
-      "completed": false
-    },
-    {
-      "title": "Step 5: Apply for Jobs",
-      "description": "Prepare for interviews and start applying for jobs or internships.",
-      "completed": false
-    },
-  ];
-
-  void toggleCompletion(int index) {
-    setState(() {
-      roadmapSteps[index]['completed'] = !roadmapSteps[index]['completed'];
-    });
-  }
-
-  void completeAll() {
-    setState(() {
-      for (var step in roadmapSteps) {
-        step['completed'] = true;
-      }
-    });
-  }
+  List<bool> completedSteps = [false, false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Dark background
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
-        title: const Text(
-          "Roadmap",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+        title: Text(
+          'Flutter Roadmap',
+          style: GoogleFonts.poppins(
             color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        backgroundColor: Colors.grey[900],
+        foregroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: roadmapSteps.length,
-                itemBuilder: (context, index) {
-                  return RoadmapStep(
-                    isCompleted: roadmapSteps[index]['completed'],
-                    title: roadmapSteps[index]['title'],
-                    description: roadmapSteps[index]['description'],
-                    onTap: () => toggleCompletion(index),
-                    isLast: index == roadmapSteps.length - 1,
-                  );
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Timeline for Roadmap Steps
+              _buildTimeline(),
+              SizedBox(height: 20),
+              // Mark as Completed Button
+              ElevatedButton(
+                onPressed: () {
+                  if (completedSteps.every((step) => step)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Roadmap Completed! 🎉',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Complete all steps first!',
+                            style: TextStyle(color: Colors.white)),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
+                  }
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child:
+                    Text('Mark as Completed', style: TextStyle(fontSize: 16)),
               ),
-            ),
-            ElevatedButton(
-              onPressed: completeAll,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-              ),
-              child: const Text(
-                "Complete All",
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
-}
 
-class RoadmapStep extends StatelessWidget {
-  final bool isCompleted;
-  final String title;
-  final String description;
-  final VoidCallback onTap;
-  final bool isLast;
-
-  const RoadmapStep({
-    required this.isCompleted,
-    required this.title,
-    required this.description,
-    required this.onTap,
-    required this.isLast,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  // Build Timeline for Roadmap Steps
+  Widget _buildTimeline() {
+    return Column(
       children: [
-        Column(
-          children: [
-            GestureDetector(
-              onTap: onTap,
-              child: Icon(
-                isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
-                color: isCompleted ? Colors.green : Colors.grey,
-                size: 30,
-              ),
-            ),
-            if (!isLast)
-              Container(
-                width: 3,
-                height: 50,
-                color: Colors.grey[700],
-              ),
-          ],
+        _buildTimelineTile(
+          isFirst: true,
+          isLast: false,
+          completed: completedSteps[0],
+          title: 'Learn Dart Basics',
+          description: 'Understand variables, functions, and OOP in Dart.',
+          index: 0,
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Card(
-            color: Colors.black, // Changed to black
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-              side: BorderSide(color: Colors.grey[700]!), // Border for contrast
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: isCompleted ? Colors.green : Colors.white,
+        _buildTimelineTile(
+          isFirst: false,
+          isLast: false,
+          completed: completedSteps[1],
+          title: 'Flutter Widgets',
+          description: 'Explore Stateless & Stateful widgets.',
+          index: 1,
+        ),
+        _buildTimelineTile(
+          isFirst: false,
+          isLast: false,
+          completed: completedSteps[2],
+          title: 'State Management',
+          description: 'Learn Provider, Riverpod, or Bloc.',
+          index: 2,
+        ),
+        _buildTimelineTile(
+          isFirst: false,
+          isLast: false,
+          completed: completedSteps[3],
+          title: 'Networking & API Calls',
+          description: 'Use HTTP package to fetch data from APIs.',
+          index: 3,
+        ),
+        _buildTimelineTile(
+          isFirst: false,
+          isLast: true,
+          completed: completedSteps[4],
+          title: 'Database Integration',
+          description: 'Integrate with databases like Firebase or SQLite.',
+          index: 4,
+        ),
+      ],
+    );
+  }
+
+  // Build Individual Timeline Tile
+  Widget _buildTimelineTile({
+    required bool isFirst,
+    required bool isLast,
+    required bool completed,
+    required String title,
+    required String description,
+    required int index,
+  }) {
+    return TimelineTile(
+      isFirst: isFirst,
+      isLast: isLast,
+      beforeLineStyle: LineStyle(
+        color: completed ? Colors.greenAccent : Colors.grey[700]!,
+      ),
+      indicatorStyle: IndicatorStyle(
+        width: 30,
+        color: completed ? Colors.greenAccent : Colors.grey[700]!,
+        iconStyle: IconStyle(
+          iconData: completed ? Icons.check : Icons.circle,
+          color: Colors.white,
+        ),
+      ),
+      endChild: Container(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.8, // Constrain width
+        ),
+        child: Card(
+          color: Colors.grey[900],
+          elevation: 4,
+          margin: EdgeInsets.only(left: 8, bottom: 16), // Reduced left margin
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0), // Reduced padding
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    description,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
+                    IconButton(
+                      icon: Icon(
+                        completed
+                            ? Icons.check_circle
+                            : Icons.radio_button_unchecked,
+                        color: completed ? Colors.greenAccent : Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          completedSteps[index] = !completedSteps[index];
+                        });
+                      },
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Text(
+                  description,
+                  style: TextStyle(color: Colors.grey[400]),
+                ),
+              ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

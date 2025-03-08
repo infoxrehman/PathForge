@@ -82,7 +82,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "@$name",
+                            "$name",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

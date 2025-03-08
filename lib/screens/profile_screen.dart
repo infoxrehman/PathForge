@@ -132,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  "@$username",
+                  "$username",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,

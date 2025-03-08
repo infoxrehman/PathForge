@@ -9,6 +9,7 @@ import 'package:path_forge/firebase_options.dart';
 import 'package:path_forge/screens/dash_board.dart';
 import 'package:path_forge/secrets/gemini_key.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

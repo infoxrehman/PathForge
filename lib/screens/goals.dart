@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path_forge/auth/login_page.dart';
 import 'package:path_forge/screens/custom_roadmap_screen.dart';
 import 'package:path_forge/utils/goals_data.dart';
 import 'package:path_forge/widgets/roadmap_card.dart';
@@ -58,91 +59,111 @@ class _GoalsState extends State<Goals> {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         centerTitle: true,
+        title: Text(
+          "Select your roadmap",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoginPage(),
+              ),
+            );
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: _roadmapCards.map((card) {
-                  return RoadmapCard(
-                    title: card['title'],
-                    description: card['description'],
-                    icon: card['icon'],
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => card['screen'],
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 20),
-              Divider(
-                color: Colors.white.withOpacity(0.5),
-                thickness: 1.5,
-                indent: 20,
-                endIndent: 20,
-              ),
-              const SizedBox(height: 20),
-              Card(
-                color: Colors.grey[900],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  children: _roadmapCards.map((card) {
+                    return RoadmapCard(
+                      title: card['title'],
+                      description: card['description'],
+                      icon: card['icon'],
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => card['screen'],
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Image.asset("assets/images/roadmap.png"),
-                      const Text(
-                        "Want to create your own custom roadmap?",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CustomRoadmapScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Create Custom Roadmap",
+                const SizedBox(height: 20),
+                Divider(
+                  color: Colors.white.withOpacity(0.5),
+                  thickness: 1.5,
+                  indent: 20,
+                  endIndent: 20,
+                ),
+                const SizedBox(height: 20),
+                Card(
+                  color: Colors.grey[900],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Image.asset("assets/images/roadmap.png"),
+                        const Text(
+                          "Want to create your own custom roadmap?",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 15),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const CustomRoadmapScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Create Custom Roadmap",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

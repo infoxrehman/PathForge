@@ -47,7 +47,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 );
               },
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 6),
             ExploreCard(
               title: "Chat with AI Bot",
               description:
@@ -60,7 +60,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 );
               },
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 6),
             ExploreCard(
               title: "Pair Programming",
               description:
@@ -75,7 +75,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 );
               },
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 6),
             ExploreCard(
               title: "Join Hackathons",
               description:

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path_forge/auth/login_page.dart';
 import 'package:path_forge/screens/custom_roadmap_screen.dart';
 import 'package:path_forge/utils/goals_data.dart';
 import 'package:path_forge/widgets/roadmap_card.dart';
@@ -64,17 +63,6 @@ class _GoalsState extends State<Goals> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              ),
-            );
-          },
-          icon: Icon(Icons.arrow_back),
         ),
       ),
       body: SafeArea(

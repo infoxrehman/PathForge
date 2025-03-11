@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Roadmap extends StatefulWidget {
   const Roadmap({super.key});
@@ -10,7 +12,82 @@ class Roadmap extends StatefulWidget {
 }
 
 class _RoadmapState extends State<Roadmap> {
-  List<bool> completedSteps = [false, false, false, false, false];
+  List<Map<String, dynamic>> roadmapSteps = [];
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRoadmapData();
+  }
+
+  Future<void> _loadRoadmapData() async {
+    if (user == null) return;
+
+    DocumentSnapshot snapshot =
+        await _firestore.collection('roadmaps').doc(user!.uid).get();
+
+    if (snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      setState(() {
+        roadmapSteps = List<Map<String, dynamic>>.from(data['steps'] ?? []);
+      });
+    } else {
+      _initializeRoadmap();
+    }
+  }
+
+  Future<void> _initializeRoadmap() async {
+    roadmapSteps = [
+      {
+        'title': 'Learn Dart Basics',
+        'description': 'Understand variables, functions, and OOP in Dart.',
+        'completed': false
+      },
+      {
+        'title': 'Flutter Widgets',
+        'description': 'Explore Stateless & Stateful widgets.',
+        'completed': false
+      },
+      {
+        'title': 'State Management',
+        'description': 'Learn Provider, Riverpod, or Bloc.',
+        'completed': false
+      },
+      {
+        'title': 'Networking & API Calls',
+        'description': 'Use HTTP package to fetch data from APIs.',
+        'completed': false
+      },
+      {
+        'title': 'Database Integration',
+        'description': 'Integrate with databases like Firebase or SQLite.',
+        'completed': false
+      },
+    ];
+
+    await _saveRoadmapData();
+  }
+
+  Future<void> _saveRoadmapData() async {
+    if (user == null) return;
+
+    await _firestore.collection('roadmaps').doc(user!.uid).set({
+      'steps': roadmapSteps,
+      'completed': roadmapSteps.every((step) => step['completed']),
+    });
+
+    if (roadmapSteps.every((step) => step['completed'])) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Roadmap Completed! 🎉',
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,104 +105,52 @@ class _RoadmapState extends State<Roadmap> {
         backgroundColor: Colors.grey[900],
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Timeline for Roadmap Steps
-              _buildTimeline(),
-              SizedBox(height: 20),
-              // Mark as Completed Button
-              ElevatedButton(
-                onPressed: () {
-                  if (completedSteps.every((step) => step)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Roadmap Completed! 🎉',
-                          style: TextStyle(color: Colors.white),
+      body: roadmapSteps.isEmpty
+          ? Center(child: CircularProgressIndicator(color: Colors.white))
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    _buildTimeline(),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _saveRoadmapData,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        backgroundColor: Colors.green,
                       ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Complete all steps first!',
-                            style: TextStyle(color: Colors.white)),
-                        backgroundColor: Colors.redAccent,
-                      ),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                      child:
+                          Text('Save Progress', style: TextStyle(fontSize: 16)),
+                    ),
+                  ],
                 ),
-                child:
-                    Text('Mark as Completed', style: TextStyle(fontSize: 16)),
               ),
-            ],
-          ),
+            ),
+    );
+  }
+
+  Widget _buildTimeline() {
+    return Column(
+      children: List.generate(
+        roadmapSteps.length,
+        (index) => _buildTimelineTile(
+          isFirst: index == 0,
+          isLast: index == roadmapSteps.length - 1,
+          completed: roadmapSteps[index]['completed'],
+          title: roadmapSteps[index]['title'],
+          description: roadmapSteps[index]['description'],
+          index: index,
         ),
       ),
     );
   }
 
-  // Build Timeline for Roadmap Steps
-  Widget _buildTimeline() {
-    return Column(
-      children: [
-        _buildTimelineTile(
-          isFirst: true,
-          isLast: false,
-          completed: completedSteps[0],
-          title: 'Learn Dart Basics',
-          description: 'Understand variables, functions, and OOP in Dart.',
-          index: 0,
-        ),
-        _buildTimelineTile(
-          isFirst: false,
-          isLast: false,
-          completed: completedSteps[1],
-          title: 'Flutter Widgets',
-          description: 'Explore Stateless & Stateful widgets.',
-          index: 1,
-        ),
-        _buildTimelineTile(
-          isFirst: false,
-          isLast: false,
-          completed: completedSteps[2],
-          title: 'State Management',
-          description: 'Learn Provider, Riverpod, or Bloc.',
-          index: 2,
-        ),
-        _buildTimelineTile(
-          isFirst: false,
-          isLast: false,
-          completed: completedSteps[3],
-          title: 'Networking & API Calls',
-          description: 'Use HTTP package to fetch data from APIs.',
-          index: 3,
-        ),
-        _buildTimelineTile(
-          isFirst: false,
-          isLast: true,
-          completed: completedSteps[4],
-          title: 'Database Integration',
-          description: 'Integrate with databases like Firebase or SQLite.',
-          index: 4,
-        ),
-      ],
-    );
-  }
-
-  // Build Individual Timeline Tile
   Widget _buildTimelineTile({
     required bool isFirst,
     required bool isLast,
@@ -150,16 +175,16 @@ class _RoadmapState extends State<Roadmap> {
       ),
       endChild: Container(
         constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.8, // Constrain width
+          maxWidth: MediaQuery.of(context).size.width * 0.8,
         ),
         child: Card(
           color: Colors.grey[900],
           elevation: 4,
-          margin: EdgeInsets.only(left: 8, bottom: 16), // Reduced left margin
+          margin: EdgeInsets.only(left: 8, bottom: 16),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Padding(
-            padding: const EdgeInsets.all(12.0), // Reduced padding
+            padding: const EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -183,8 +208,9 @@ class _RoadmapState extends State<Roadmap> {
                       ),
                       onPressed: () {
                         setState(() {
-                          completedSteps[index] = !completedSteps[index];
+                          roadmapSteps[index]['completed'] = !completed;
                         });
+                        _saveRoadmapData();
                       },
                     ),
                   ],
